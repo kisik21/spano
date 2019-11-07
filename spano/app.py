@@ -6,7 +6,10 @@ import sys
 
 def create_app(config_path='../spano.cfg'):
     app = Flask('spano')
-    app.config.from_pyfile(config_path)
+    try:
+        app.config.from_envvar("SPANO_CONFIG")
+    except:
+        app.config.from_pyfile(config_path)
     configure_logging(app)
     extensions.init_app(app)
     app.register_blueprint(api)
